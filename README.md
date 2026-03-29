@@ -1,5 +1,7 @@
 # deparam
 
+<img src="images/banner.png" width="1200" alt="deparam banner">
+
 Paste a URL. See its query parameters in a readable table.
 
 **https://deparam.dakotahpena.dev**
