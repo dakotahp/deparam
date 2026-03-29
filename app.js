@@ -137,7 +137,7 @@
     var existing = document.querySelector('.scanline');
     if (existing) existing.remove();
 
-    var rect = paramsBody.getBoundingClientRect();
+    var rect = tableEl.getBoundingClientRect();
     if (rect.height === 0) return;
 
     var line = document.createElement('div');
@@ -169,6 +169,7 @@
   }
 
   function toggleSort() {
+    if (originalParams.length === 0) return;
     if (sortState === 'none') {
       sortState = 'asc';
       sortIndicator.textContent = ' ▲';
