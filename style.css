@@ -153,3 +153,127 @@ body {
   color: var(--pink);
   text-shadow: var(--glow-pink);
 }
+
+/* ── Raw URL pane colors ────────────────────────────── */
+.raw-base    { color: var(--muted); }
+.raw-key     { color: var(--cyan);   text-shadow: var(--glow-cyan);   }
+.raw-eq      { color: var(--dim);    }
+.raw-val     { color: var(--green);  text-shadow: var(--glow-green);  }
+.raw-val.num { color: var(--yellow); text-shadow: var(--glow-yellow); }
+.raw-amp     { color: var(--dim);    }
+
+/* ── Hints ──────────────────────────────────────────── */
+.hint {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ── Table wrapper ──────────────────────────────────── */
+.table-wrap {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Table ──────────────────────────────────────────── */
+#params-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#params-table thead th {
+  padding: 7px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--pink);
+  text-shadow: var(--glow-pink);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.col-key { width: 35%; }
+.col-val { width: 65%; }
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.sort-indicator {
+  display: inline-block;
+  width: 14px;
+}
+
+/* ── Table rows ─────────────────────────────────────── */
+.params-row td {
+  padding: 7px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border-dim);
+  vertical-align: top;
+}
+
+.params-row:nth-child(even) td {
+  background: var(--surface);
+}
+
+.params-row:last-child td {
+  border-bottom: none;
+}
+
+.td-key {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.td-val {
+  color: var(--green);
+  text-shadow: var(--glow-green);
+  word-break: break-all;
+}
+
+.td-val.num {
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+}
+
+.td-val.empty {
+  color: var(--dim);
+  font-style: italic;
+  text-shadow: none;
+}
+
+/* ── Blinking block cursor ──────────────────────────── */
+.cursor-block {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 9px;
+  height: 16px;
+  background: var(--pink);
+  box-shadow: var(--glow-pink);
+  animation: blink 1s step-end infinite;
+  pointer-events: none;
+}
+
+.input-wrap:focus-within .cursor-block {
+  display: none;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
