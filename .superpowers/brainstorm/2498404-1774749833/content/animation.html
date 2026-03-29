@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Animation Options</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #13111a;
+    color: #cdd6f4;
+    font-family: 'SF Mono', ui-monospace, 'Cascadia Code', monospace;
+    padding: 24px;
+  }
+
+  h2 {
+    color: #ff79c6;
+    text-shadow: 0 0 10px #ff79c688;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: #6272a4;
+    font-size: 12px;
+    margin-bottom: 24px;
+    font-family: system-ui, sans-serif;
+  }
+
+  /* ── Layout preview ── */
+  .layout-preview {
+    background: #13111a;
+    border: 1px solid #44475a;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 28px;
+  }
+
+  .url-bar-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  .url-bar {
+    width: 100%;
+    background: #1e1a2e;
+    border: 1px solid #ff79c6;
+    border-radius: 4px;
+    padding: 10px 14px;
+    color: #f8f8f2;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    box-shadow: 0 0 12px #ff79c644;
+    caret-color: transparent;
+  }
+
+  /* Blinking block cursor overlay */
+  .cursor-blink {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 9px;
+    height: 15px;
+    background: #ff79c6;
+    box-shadow: 0 0 8px #ff79c6cc;
+    animation: blink 1s step-end infinite;
+    pointer-events: none;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .pane {
+    border: 1px solid #44475a;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .pane-label {
+    padding: 5px 10px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #ff79c6;
+    text-shadow: 0 0 8px #ff79c677;
+    background: #1a1826;
+    border-bottom: 1px solid #44475a;
+    font-weight: 600;
+  }
+
+  .raw-content {
+    padding: 10px;
+    font-size: 11px;
+    color: #6272a4;
+    line-height: 1.6;
+    word-break: break-all;
+  }
+
+  .raw-content .key { color: #ff79c6; text-shadow: 0 0 6px #ff79c655; }
+  .raw-content .val { color: #50fa7b; text-shadow: 0 0 6px #50fa7b55; }
+
+  .table-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #1a1826;
+    border-bottom: 1px solid #44475a;
+  }
+  .th {
+    padding: 6px 10px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #ff79c6;
+    text-shadow: 0 0 8px #ff79c677;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+
+  .table-body { position: relative; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #2e2b3e;
+  }
+  .row:nth-child(even) { background: #1a1826; }
+  .row:last-child { border-bottom: none; }
+
+  .td-key {
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #8be9fd;
+    text-shadow: 0 0 8px #8be9fd66;
+  }
+  .td-val {
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #50fa7b;
+    text-shadow: 0 0 8px #50fa7b66;
+  }
+  .td-val.num { color: #f1fa8c; text-shadow: 0 0 8px #f1fa8c66; }
+  .td-val.empty { color: #44475a; font-style: italic; }
+
+  /* ── Section divider ── */
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: #6272a4;
+    margin: 20px 0 12px;
+    font-family: system-ui, sans-serif;
+    border-top: 1px solid #2e2b3e;
+    padding-top: 20px;
+  }
+
+  .anim-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .anim-card {
+    border: 1px solid #44475a;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color .2s;
+  }
+  .anim-card:hover { border-color: #ff79c6; }
+
+  .anim-label {
+    padding: 8px 10px;
+    background: #1a1826;
+    border-bottom: 1px solid #44475a;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ff79c6;
+    text-shadow: 0 0 6px #ff79c655;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .replay-btn {
+    font-size: 9px;
+    color: #6272a4;
+    background: none;
+    border: 1px solid #44475a;
+    border-radius: 3px;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color .15s, border-color .15s;
+  }
+  .replay-btn:hover { color: #ff79c6; border-color: #ff79c6; }
+
+  .anim-body {
+    padding: 10px;
+    background: #13111a;
+    min-height: 140px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mini-table { width: 100%; }
+
+  .mini-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #1a1826;
+    border: 1px solid #44475a;
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+  }
+  .mini-th {
+    padding: 4px 8px;
+    font-size: 8px;
+    font-weight: 600;
+    color: #ff79c6;
+    text-shadow: 0 0 6px #ff79c655;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+
+  .mini-body {
+    border: 1px solid #44475a;
+    border-top: 1px solid #44475a;
+    border-radius: 0 0 3px 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .mini-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #2e2b3e;
+  }
+  .mini-row:nth-child(even) { background: #1a1826; }
+  .mini-row:last-child { border-bottom: none; }
+  .mini-key { padding: 4px 8px; font-size: 9px; color: #8be9fd; text-shadow: 0 0 5px #8be9fd55; }
+  .mini-val { padding: 4px 8px; font-size: 9px; color: #50fa7b; text-shadow: 0 0 5px #50fa7b55; }
+
+  /* ── Animation A: Stagger Cascade ── */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .anim-a .mini-row {
+    opacity: 0;
+    animation: slideIn 180ms ease-out forwards;
+  }
+  .anim-a.running .mini-row:nth-child(1) { animation-delay: 0ms; }
+  .anim-a.running .mini-row:nth-child(2) { animation-delay: 55ms; }
+  .anim-a.running .mini-row:nth-child(3) { animation-delay: 110ms; }
+  .anim-a.running .mini-row:nth-child(4) { animation-delay: 165ms; }
+  .anim-a.running .mini-row:nth-child(5) { animation-delay: 220ms; }
+
+  /* ── Animation B: CRT Scanline ── */
+  @keyframes scanSweep {
+    from { top: 0; }
+    to   { top: 100%; }
+  }
+
+  @keyframes rowReveal {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ff79c6, #8be9fd, transparent);
+    box-shadow: 0 0 12px 4px #ff79c688;
+    z-index: 10;
+    top: -2px;
+    pointer-events: none;
+  }
+  .anim-b.running .scan-line {
+    animation: scanSweep 320ms ease-in forwards;
+  }
+
+  .anim-b .mini-row {
+    opacity: 0;
+  }
+  .anim-b.running .mini-row:nth-child(1) { animation: rowReveal 80ms ease-out 50ms forwards; }
+  .anim-b.running .mini-row:nth-child(2) { animation: rowReveal 80ms ease-out 110ms forwards; }
+  .anim-b.running .mini-row:nth-child(3) { animation: rowReveal 80ms ease-out 170ms forwards; }
+  .anim-b.running .mini-row:nth-child(4) { animation: rowReveal 80ms ease-out 230ms forwards; }
+  .anim-b.running .mini-row:nth-child(5) { animation: rowReveal 80ms ease-out 290ms forwards; }
+
+  /* ── Animation C: Flicker On (CRT boot) ── */
+  @keyframes flicker {
+    0%   { opacity: 0; }
+    10%  { opacity: .9; }
+    12%  { opacity: 0; }
+    20%  { opacity: .8; }
+    22%  { opacity: 0; }
+    35%  { opacity: 1; }
+    37%  { opacity: .3; }
+    40%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  .anim-c .mini-row { opacity: 0; }
+  .anim-c.running .mini-row:nth-child(1) { animation: flicker 280ms ease-out 0ms forwards; }
+  .anim-c.running .mini-row:nth-child(2) { animation: flicker 280ms ease-out 60ms forwards; }
+  .anim-c.running .mini-row:nth-child(3) { animation: flicker 280ms ease-out 120ms forwards; }
+  .anim-c.running .mini-row:nth-child(4) { animation: flicker 280ms ease-out 180ms forwards; }
+  .anim-c.running .mini-row:nth-child(5) { animation: flicker 280ms ease-out 240ms forwards; }
+
+  .desc {
+    font-size: 10px;
+    color: #6272a4;
+    font-family: system-ui, sans-serif;
+    padding: 8px 10px;
+    background: #1a1826;
+    border-top: 1px solid #2e2b3e;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<h2>Layout + Animation Options</h2>
+<p class="subtitle">Full-width input bar, split pane below. Hit Replay on each animation to re-run it.</p>
+
+<!-- Layout preview with blinking cursor -->
+<div class="layout-preview">
+  <div class="url-bar-wrap">
+    <input class="url-bar" value="//wh.consumersource.com/wtd.gif?type=pageview&utm_source=google&session_id=1390949743367&ref=" readonly>
+    <span class="cursor-blink"></span>
+  </div>
+  <div class="split">
+    <div class="pane">
+      <div class="pane-label">Raw URL</div>
+      <div class="raw-content">
+        //wh.consumersource.com/wtd.gif?<br>
+        <span class="key">type</span>=<span class="val">pageview</span>&amp;<br>
+        <span class="key">utm_source</span>=<span class="val">google</span>&amp;<br>
+        <span class="key">session_id</span>=<span class="val">1390949743367</span>&amp;<br>
+        <span class="key">ref</span>=<span class="val" style="color:#44475a;font-style:italic">(empty)</span>
+      </div>
+    </div>
+    <div class="pane">
+      <div class="pane-label">Parsed</div>
+      <div class="table-head"><div class="th">Key</div><div class="th">Value</div></div>
+      <div class="table-body">
+        <div class="row"><div class="td-key">type</div><div class="td-val">pageview</div></div>
+        <div class="row"><div class="td-key">utm_source</div><div class="td-val">google</div></div>
+        <div class="row"><div class="td-key">session_id</div><div class="td-val num">1390949743367</div></div>
+        <div class="row"><div class="td-key">ref</div><div class="td-val empty">(empty)</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Row animation options — hit Replay to see each</div>
+
+<div class="anim-options">
+
+  <!-- A: Stagger cascade -->
+  <div class="anim-card">
+    <div class="anim-label">
+      A — Stagger Slide
+      <button class="replay-btn" onclick="replay('anim-a')">↺ Replay</button>
+    </div>
+    <div class="anim-body">
+      <div class="mini-table">
+        <div class="mini-head"><div class="mini-th">Key</div><div class="mini-th">Value</div></div>
+        <div class="mini-body anim-a running" id="anim-a">
+          <div class="mini-row"><div class="mini-key">type</div><div class="mini-val">pageview</div></div>
+          <div class="mini-row"><div class="mini-key">utm_source</div><div class="mini-val">google</div></div>
+          <div class="mini-row"><div class="mini-key">session_id</div><div class="mini-val">13909…</div></div>
+          <div class="mini-row"><div class="mini-key">pickGroup</div><div class="mini-val">AR_OW</div></div>
+          <div class="mini-row"><div class="mini-key">ref</div><div class="mini-val" style="color:#44475a;font-style:italic">(empty)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="desc">Rows slide up from below, staggered 55ms apart. Total reveal ~400ms for 5 rows. Clean, familiar.</div>
+  </div>
+
+  <!-- B: CRT scanline -->
+  <div class="anim-card">
+    <div class="anim-label">
+      B — CRT Scanline
+      <button class="replay-btn" onclick="replay('anim-b')">↺ Replay</button>
+    </div>
+    <div class="anim-body">
+      <div class="mini-table">
+        <div class="mini-head"><div class="mini-th">Key</div><div class="mini-th">Value</div></div>
+        <div class="mini-body anim-b running" id="anim-b" style="position:relative;">
+          <div class="scan-line"></div>
+          <div class="mini-row"><div class="mini-key">type</div><div class="mini-val">pageview</div></div>
+          <div class="mini-row"><div class="mini-key">utm_source</div><div class="mini-val">google</div></div>
+          <div class="mini-row"><div class="mini-key">session_id</div><div class="mini-val">13909…</div></div>
+          <div class="mini-row"><div class="mini-key">pickGroup</div><div class="mini-val">AR_OW</div></div>
+          <div class="mini-row"><div class="mini-key">ref</div><div class="mini-val" style="color:#44475a;font-style:italic">(empty)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="desc">A glowing pink/cyan line sweeps top to bottom, revealing rows as it passes. CRT / terminal printer feel.</div>
+  </div>
+
+  <!-- C: Flicker on -->
+  <div class="anim-card">
+    <div class="anim-label">
+      C — CRT Flicker
+      <button class="replay-btn" onclick="replay('anim-c')">↺ Replay</button>
+    </div>
+    <div class="anim-body">
+      <div class="mini-table">
+        <div class="mini-head"><div class="mini-th">Key</div><div class="mini-th">Value</div></div>
+        <div class="mini-body anim-c running" id="anim-c">
+          <div class="mini-row"><div class="mini-key">type</div><div class="mini-val">pageview</div></div>
+          <div class="mini-row"><div class="mini-key">utm_source</div><div class="mini-val">google</div></div>
+          <div class="mini-row"><div class="mini-key">session_id</div><div class="mini-val">13909…</div></div>
+          <div class="mini-row"><div class="mini-key">pickGroup</div><div class="mini-val">AR_OW</div></div>
+          <div class="mini-row"><div class="mini-key">ref</div><div class="mini-val" style="color:#44475a;font-style:italic">(empty)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="desc">Each row flickers on like a CRT phosphor screen powering up. Slightly chaotic, very retro.</div>
+  </div>
+
+</div>
+
+<script>
+function replay(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('running');
+  // Reset scan line if present
+  const scan = el.querySelector('.scan-line');
+  if (scan) {
+    const clone = scan.cloneNode(true);
+    scan.parentNode.replaceChild(clone, scan);
+  }
+  void el.offsetWidth; // force reflow
+  el.classList.add('running');
+}
+
+// Auto-play all on load after short delay
+setTimeout(() => {
+  ['anim-a','anim-b','anim-c'].forEach(id => replay(id));
+}, 400);
+</script>
+</body>
+</html>
