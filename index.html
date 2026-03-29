@@ -1,100 +1,63 @@
----
-layout: default
-title: Deparameterize URL strings | deparam.teardrop.co
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>deparam</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1 class="app-title">deparam</h1>
+    </header>
 
-<header>
-  <div class="row">
-    <div class="small-12 columns">
-      <p><input type="text" id="url" placeholder="Paste URL here" autofocus></p>
+    <div class="input-wrap">
+      <input
+        type="text"
+        id="url-input"
+        class="url-input"
+        placeholder="Paste URL here…"
+        autocomplete="off"
+        spellcheck="false"
+        autofocus
+      >
+      <span class="cursor-block" aria-hidden="true"></span>
     </div>
-  </div>
-</header>
 
-<nav>
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="inline-list">
-        <li>
-          <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-          <svg width="39px" height="21px" viewBox="0 0 39 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-              <title>Untitled</title>
-              <defs></defs>
-              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-                  <path d="M18.024,10.824 L9.144,0.552 L0.264,10.824 L6.912,10.824 L6.912,20.616 L11.352,20.616 L11.352,10.824 L18.024,10.824 Z M21.230857,10.776 L30.110857,21.024 L38.990857,10.776 L32.318857,10.776 L32.318857,0.96 L27.878857,0.96 L27.878857,10.776 L21.230857,10.776 Z" id="{}" fill="#000000" sketch:type="MSShapeGroup"></path>
-              </g>
-          </svg>
-          <span>
-            Click Key column to sort
-          </span>
-        </li>
-        <li>
-          <a href="#" data-reveal-id="whatis-modal">
-            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-            <svg id="question-icon" width="22px" height="21px" viewBox="0 0 22 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-                <title>Untitled</title>
-                <defs></defs>
-                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-                    <path d="M11.064,0.152 C5.496,0.152 0.96,4.688 0.96,10.256 C0.96,15.824 5.496,20.36 11.064,20.36 C16.656,20.36 21.168,15.824 21.168,10.256 C21.168,4.688 16.656,0.152 11.064,0.152 Z M11.736,16.304 C11.448,16.592 11.016,16.712 10.56,16.712 C10.104,16.712 9.696,16.568 9.408,16.304 C9.12,16.016 8.952,15.608 8.976,15.176 C8.952,14.744 9.12,14.336 9.408,14.048 C9.72,13.784 10.104,13.64 10.56,13.64 C11.016,13.64 11.424,13.784 11.736,14.048 C12.048,14.336 12.192,14.744 12.192,15.176 C12.192,15.608 12.048,16.016 11.736,16.304 Z M14.448,8.576 C14.28,8.96 14.088,9.296 13.848,9.584 C13.608,9.848 13.368,10.088 13.08,10.304 C12.816,10.496 12.6,10.688 12.384,10.904 C12.192,11.12 12.024,11.36 11.88,11.624 C11.76,11.864 11.688,12.2 11.688,12.632 L11.688,12.92 L9.576,12.92 L9.312,12.92 L9.288,12.656 C9.288,12.464 9.264,12.272 9.264,12.08 C9.264,11.72 9.312,11.408 9.384,11.096 C9.504,10.688 9.672,10.304 9.864,9.992 C10.08,9.68 10.32,9.416 10.584,9.176 C10.824,8.96 11.064,8.768 11.256,8.576 C11.472,8.384 11.616,8.192 11.76,8 C11.856,7.832 11.928,7.64 11.928,7.4 C11.928,7.064 11.832,6.824 11.664,6.656 C11.544,6.512 11.256,6.416 10.752,6.416 C10.584,6.416 10.416,6.416 10.248,6.464 C10.056,6.488 9.864,6.536 9.696,6.608 C9.504,6.68 9.312,6.752 9.144,6.848 C8.976,6.944 8.832,7.016 8.688,7.112 L8.448,7.304 L7.344,5.216 L7.56,5.072 C7.992,4.784 8.496,4.52 9.072,4.328 C9.648,4.136 10.32,4.04 11.112,4.04 C12.192,4.04 13.08,4.304 13.704,4.856 C14.352,5.408 14.688,6.176 14.688,7.088 C14.688,7.664 14.616,8.168 14.448,8.576 Z" id="?" fill="#000000" sketch:type="MSShapeGroup"></path>
-                </g>
-            </svg>
-            What is this?
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/dakotahp/deparam">
-            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-            <svg id="eye-icon" width="22px" height="13px" viewBox="0 0 22 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-                <title>Untitled 2</title>
-                <defs></defs>
-                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-                    <path d="M10.752,1.256 C5.328,1.256 0.72,6.68 0.72,6.68 L0.72,6.896 C0.72,6.896 5.304,12.368 10.728,12.368 C16.152,12.368 20.76,6.92 20.76,6.92 L20.76,6.728 C20.76,6.728 16.176,1.256 10.752,1.256 Z M10.704,10.208 C8.88,10.208 7.392,8.72 7.392,6.872 C7.392,5.048 8.88,3.56 10.704,3.56 C12.552,3.56 14.04,5.048 14.04,6.872 C14.04,8.72 12.552,10.208 10.704,10.208 Z M10.704,5.336 C9.864,5.336 9.192,6.032 9.192,6.872 C9.192,7.712 9.864,8.384 10.704,8.384 C11.544,8.384 12.24,7.712 12.24,6.872 C12.24,6.032 11.544,5.336 10.704,5.336 Z" id="E" fill="#000000" sketch:type="MSShapeGroup"></path>
-                </g>
-            </svg>
-            Source on GitHub
-          </a>
-        </li>
-      </ul>
+    <div class="split-pane">
+      <section class="pane pane-raw" aria-label="Raw URL">
+        <div class="pane-header">Raw URL</div>
+        <div class="pane-body" id="raw-output">
+          <span class="hint">Paste a URL above</span>
+        </div>
+      </section>
+
+      <section class="pane pane-table" aria-label="Parsed parameters">
+        <div class="pane-header">Parsed</div>
+        <div class="pane-body table-wrap">
+          <span class="hint" id="table-hint">Paste a URL above</span>
+          <span class="hint hidden" id="no-params-hint">No parameters found</span>
+          <table id="params-table" class="hidden">
+            <thead>
+              <tr>
+                <th id="sort-key" class="col-key sortable" aria-sort="none">
+                  Key <span class="sort-indicator" aria-hidden="true"></span>
+                </th>
+                <th class="col-val">Value</th>
+              </tr>
+            </thead>
+            <tbody id="params-body"></tbody>
+          </table>
+        </div>
+      </section>
     </div>
-  </div>
-</nav>
+  </main>
 
-<article class="main-content">
-
-  <section class="row">
-    <div class="small-12 columns">
-
-      <table class="tablesorter">
-        <thead>
-          <tr>
-            <th data-sort="string">Key</td>
-            <th>Value</td>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-
-    </div>
-  </section>
-
-  <footer class="row">
-    <div class="small-12 columns inner">
-      <ul class="inline-list">
-        <li>
-          <a href="https://dakotahpena.studio/">Made in Coeur d'Alene</a>
-        </li>
-      </ul>
-    </div>
+  <footer class="app-footer">
+    <a href="https://github.com/dakotahp/deparam" class="footer-link">source</a>
   </footer>
 
-</article>
-
-<div id="whatis-modal" class="reveal-modal" data-reveal>
-  <h2>deparam.dakotahpena.dev</h2>
-  <p class="lead">Deparameterize URL strings.</p>
-  <p>deparam.io is a tool to break long URL strings into a readable table of parameters. No longer will you need to visually parse complex URL parameters.</p>
-  <p>For an example paste the following string into the input:</p>
-  <code>//wh.consumersource.com/wtd.gif?type=pageview&site=www-02.v-lax.example.com&site_version=www-02.v-lax.example.com_kilo&sess=1390949743367.1390949743367&pickGroup=AR_OW_pick&cg=OW%20LO%20Homepage&ref=&path=%2F&title=Apartments%20for%20Rent%20%26%20Homes%20for%20Rent%20-%example.com%C2%AE%20Apartment%20Finder&fpc=1390949743367&ft=7892.418999996153&cb=0&bs=1312x460&sr=1312x460&os=Mac&browser=Chrome&ver=32&cg_s=ow%20homepage&li=0&set_pick=0d6d5294&get_pick=4b1fe553&shadow_person_id=171705277</code>
-  <a class="close-reveal-modal">&#215;</a>
-</div>
+  <script src="app.js"></script>
+</body>
+</html>
