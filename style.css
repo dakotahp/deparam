@@ -277,3 +277,43 @@ body {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
+
+/* ── Row reveal animation ───────────────────────────── */
+/* Rows start invisible. JS adds .revealed to kick off the staggered fade. */
+.params-row {
+  opacity: 0;
+}
+
+@keyframes rowReveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.params-row.revealed {
+  animation: rowReveal 80ms ease-out forwards;
+  animation-delay: var(--row-delay, 0ms);
+}
+
+/* ── CRT scanline ───────────────────────────────────── */
+/* JS appends a .scanline div to <body>, sized/positioned via inline styles
+   derived from paramsBody.getBoundingClientRect().                        */
+.scanline {
+  position: fixed;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--pink)  30%,
+    var(--cyan)  70%,
+    transparent  100%
+  );
+  box-shadow: 0 0 12px 4px #ff79c688;
+  pointer-events: none;
+  z-index: 100;
+  animation: scanSweep 320ms ease-in forwards;
+}
+
+@keyframes scanSweep {
+  from { transform: translateY(0); }
+  to   { transform: translateY(var(--sweep-distance, 200px)); }
+}
